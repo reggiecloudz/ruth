@@ -5,5 +5,7 @@
   "editor.formatOnPaste": true,
   "editor.wordWrap": "on",
   "editor.renderWhitespace": "boundary",
-  "editor.tabSize": 2
+  "editor.detectIndentation": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true
 }
