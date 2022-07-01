@@ -1,21 +1,10 @@
+// import bcrypt from 'bcrypt';
 import { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
 import User from '../models/User';
 
-const createUser = (req: Request, res: Response, next: NextFunction) => {
-  const { name, email } = req.body;
+// const authenticateUser = (req: Request, res: Response, next: NextFunction) => {};
 
-  const user = new User({
-    _id: new mongoose.Types.ObjectId(),
-    name,
-    email
-  });
-
-  return user
-    .save()
-    .then((user) => res.status(201).json({ user }))
-    .catch((err) => res.status(500).json({ err }));
-};
+// const registerUser = (req: Request, res: Response, next: NextFunction) => {};
 
 const readUser = (req: Request, res: Response, next: NextFunction) => {
   const userId = req.params.userId;
@@ -58,4 +47,4 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
     .catch((err) => res.status(500).json({ err }));
 };
 
-export default { createUser, readUser, readAllUsers, updateUser, deleteUser };
+export default { readUser, readAllUsers, updateUser, deleteUser };

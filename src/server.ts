@@ -1,9 +1,12 @@
 import express from 'express';
 import http from 'http';
 import mongoose from 'mongoose';
+import passport from 'passport';
+import middlewarePassport from './middleware/passport';
 import { config } from './config/config';
 import articleRoutes from './routes/Article';
 import userRoutes from './routes/User';
+import authRoutes from './routes/Auth';
 
 const router = express();
 
@@ -32,6 +35,10 @@ const startServer = () => {
     next();
   });
 
+  //Passport
+  router.use(passport.initialize());
+  passport.use(middlewarePassport);
+
   router.use(express.urlencoded({ extended: true }));
   router.use(express.json());
 
@@ -47,8 +54,9 @@ const startServer = () => {
 
     next();
   });
-  // 62be38dbb5a1b4fabba8f6b4
+
   /** Routes */
+  router.use('/authentication', authRoutes);
   router.use('/articles', articleRoutes);
   router.use('/users', userRoutes);
 

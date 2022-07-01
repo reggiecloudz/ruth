@@ -36,13 +36,15 @@ export const Schemas = {
       email: Joi.string()
         .regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
         .required(),
-      name: Joi.string().required()
+      name: Joi.string().required(),
+      password: Joi.string().required()
     }),
     update: Joi.object<IUser>({
       email: Joi.string()
         .regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
         .required(),
-      name: Joi.string().required()
+      name: Joi.string().required(),
+      password: Joi.string()
     })
   }
 };
