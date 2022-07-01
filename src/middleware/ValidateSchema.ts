@@ -1,7 +1,7 @@
 import Joi, { ObjectSchema } from 'joi';
 import { NextFunction, Request, Response } from 'express';
-import { IAuthor } from '../models/Author';
-import { IBook } from '../models/Book';
+import { IArticle } from '../models/Article';
+import { IUser } from '../models/User';
 
 export const ValidateSchema = (schema: ObjectSchema) => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -17,26 +17,32 @@ export const ValidateSchema = (schema: ObjectSchema) => {
 };
 
 export const Schemas = {
-  author: {
-    create: Joi.object<IAuthor>({
-      name: Joi.string().required()
+  article: {
+    create: Joi.object<IArticle>({
+      title: Joi.string().required(),
+      author: Joi.string()
+        .regex(/^[0-9a-fA-F]{24}$/)
+        .required()
     }),
-    update: Joi.object<IAuthor>({
-      name: Joi.string().required()
+    update: Joi.object<IArticle>({
+      title: Joi.string().required(),
+      author: Joi.string()
+        .regex(/^[0-9a-fA-F]{24}$/)
+        .required()
     })
   },
-  book: {
-    create: Joi.object<IBook>({
-      author: Joi.string()
-        .regex(/^[0-9a-fA-F]{24}$/)
+  user: {
+    create: Joi.object<IUser>({
+      email: Joi.string()
+        .regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
         .required(),
-      title: Joi.string().required()
+      name: Joi.string().required()
     }),
-    update: Joi.object<IBook>({
-      author: Joi.string()
-        .regex(/^[0-9a-fA-F]{24}$/)
+    update: Joi.object<IUser>({
+      email: Joi.string()
+        .regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
         .required(),
-      title: Joi.string().required()
+      name: Joi.string().required()
     })
   }
 };

@@ -2,8 +2,8 @@ import express from 'express';
 import http from 'http';
 import mongoose from 'mongoose';
 import { config } from './config/config';
-import authorRoutes from './routes/Author';
-import bookRoutes from './routes/Book';
+import articleRoutes from './routes/Article';
+import userRoutes from './routes/User';
 
 const router = express();
 
@@ -47,10 +47,10 @@ const startServer = () => {
 
     next();
   });
-
+  // 62be38dbb5a1b4fabba8f6b4
   /** Routes */
-  router.use('/authors', authorRoutes);
-  router.use('/books', bookRoutes);
+  router.use('/articles', articleRoutes);
+  router.use('/users', userRoutes);
 
   /**healthcheck */
   router.get('/ping', (req, res, next) => res.status(200).json({ message: 'pong' }));
