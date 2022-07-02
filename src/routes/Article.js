@@ -1,5 +1,5 @@
-import express from 'express';
-import controller from '../controllers/Article';
+const express = require('express');
+const controller = require('../controllers/Article');
 
 const router = express.Router();
 
@@ -9,4 +9,4 @@ router.get('/get', controller.readAllArticles);
 router.patch('/update/:articleId', controller.updateArticle);
 router.delete('/delete/:articleId', controller.deleteArticle);
 
-export = router;
+module.exports = router;

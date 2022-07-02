@@ -1,6 +1,6 @@
-import express from 'express';
-import controller from '../controllers/User';
-import { Schemas, ValidateSchema } from '../middleware/ValidateSchema';
+const express = require('express');
+const controller = require('../controllers/User');
+const { ValidateSchema, Schemas } = require('../middleware/ValidateSchema');
 
 const router = express.Router();
 
@@ -11,4 +11,4 @@ router.get('/get', controller.readAllUsers);
 router.patch('/update/:userId', ValidateSchema(Schemas.user.update), controller.updateUser);
 router.delete('/delete/:userId', controller.deleteUser);
 
-export = router;
+module.exports = router;

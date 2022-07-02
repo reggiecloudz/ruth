@@ -1,17 +1,15 @@
-import { config } from '../config/config';
-import { Request, Response } from 'express';
-import User, { IUserModel } from '../models/User';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-
+const config = require('../config/config');
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
+const jsonwebtoken = require('jsonwebtoken');
 /**
  * Creating tokens
  * Using jsonwebtoken
  * @param user
  * @returns
  */
-function createToken(user: IUserModel) {
-  return jwt.sign(
+function createToken(user) {
+  return jsonwebtoken.sign(
     {
       id: user._id,
       email: user.email
@@ -22,21 +20,20 @@ function createToken(user: IUserModel) {
     }
   );
 }
-
 /**
  * User registration function
  * @param req
  * @param res
  * @returns
  */
-export const signUp = async (req: Request, res: Response): Promise<Response> => {
+module.exports.signUp = async (req, res) => {
   if (!req.body.email || !req.body.name || !req.body.password) {
     return res.status(400).json({ msg: 'Please, send your email and password.' });
   }
 
   const user = await User.findOne({ email: req.body.email });
   if (user) {
-    return res.status(400).json({ msg: 'User already exixts!' });
+    return res.status(400).json({ msg: 'User already exists!' });
   }
 
   const newUser = new User(req.body);
@@ -50,7 +47,7 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
  * @param res
  * @returns
  */
-export const signIn = async (req: Request, res: Response): Promise<Response> => {
+module.exports.signIn = async (req, res) => {
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({ msg: 'Please, send your email and password.' });
   }

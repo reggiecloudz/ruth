@@ -2,10 +2,9 @@
   "name": "ruth",
   "version": "1.0.0",
   "description": "A node.js project",
-  "main": "src/server.ts",
+  "main": "src/server.js",
   "scripts": {
-    "build": "rm -rf build/ && tsc",
-    "start": "node build/server.js"
+    "start": "node src/server.js"
   },
   "repository": {
     "type": "git",

@@ -1,20 +1,18 @@
-import { Strategy, StrategyOptions, ExtractJwt } from 'passport-jwt';
-import { config } from '../config/config';
-import User from '../models/User';
-
+const passport_jwt = require('passport-jwt');
+const config = require('../config/config');
+const User = require('../models/User');
 /**
  * StrategyOptions interface
  * Using passport-jwt
  */
-const opts: StrategyOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+const opts = {
+  jwtFromRequest: passport_jwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: config.jwt.secret
 };
-
 /**
  * Instance Strategy Class
  */
-export default new Strategy(opts, (payload, done) => {
+module.exports = new passport_jwt.Strategy(opts, (payload, done) => {
   try {
     const user = User.findById(payload.id);
     if (user) {

@@ -1,12 +1,11 @@
-import { Router } from 'express';
-import { signIn, signUp } from '../controllers/Auth';
-import passport from 'passport';
+const express = require('express');
+const { signIn, signUp } = require('../controllers/Auth');
 
 /**
  * Router
  * Using Passport
  */
-const router = Router();
+const router = express.Router();
 
 router.post('/signin', signIn);
 router.post('/signup', signUp);
@@ -14,4 +13,4 @@ router.post('/signup', signUp);
 //   res.send('Success!!');
 // });
 
-export default router;
+module.exports = router;
