@@ -1,0 +1,45 @@
+<%- include("../partials/pageTop") %>
+<div class="row">
+  <h1 class="text-center">New Equipment</h1>
+  <div class="col-6 offset-3">
+    <form action="/equipment/create" method="POST" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label class="form-label" for="name">Name</label>
+        <input class="form-control" type="text" id="name" name="name" required />
+      </div>
+      <div class="mb-3">
+        <label for="condition">Condition</label>
+        <select class="form-control" name="condition" id="condition">
+          <option value="Excellent">Excellent</option>
+          <option value="Good">Good</option>
+          <option value="Fair">Fair</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="dailyRate">Price per day</label>
+        <div class="input-group">
+          <span class="input-group-text" id="rate-label">$</span>
+          <input type="text" class="form-control" id="dailyRate" placeholder="0.00" aria-label="amount in dollars" aria-describedby="rate-label" name="dailyRate" required />
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="fineRate">Fines per day</label>
+        <div class="input-group">
+          <span class="input-group-text" id="fine-label">$</span>
+          <input type="text" class="form-control" id="fineRate" placeholder="0.00" aria-label="amount in dollars" aria-describedby="fine-label" name="fineRate" required />
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea class="form-control" type="text" id="description" name="description" required></textarea>
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-success">Add Equipment</button>
+      </div>
+    </form>
+    <div class="mb-3">
+      <a href="/equipment">All Equipment</a>
+    </div>
+  </div>
+</div>
+<%- include("../partials/pageBottom") %>

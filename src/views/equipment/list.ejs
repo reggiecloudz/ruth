@@ -1,0 +1,23 @@
+<%- include("../partials/pageTop") %>
+
+<h1>All Equipment</h1>
+<div>
+  <a href="/equipment/create">Add Equipment</a>
+</div>
+
+<% for (const item of equipment) { %>
+<div class="card mb-3">
+  <div class="row">
+    <div class="col">
+      <div class="card-body">
+        <h5 class="card-title"><%= item.name %></h5>
+        <p class="card-text"><%= item.description %></p>
+        <p class="card-text">
+          <small class="text-muted"><%= equipment.dailyRate %> a day</small>
+        </p>
+        <a class="btn btn-primary" href="/equipment/<%= item.id %> ">View Equipment</a>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %> <%- include("../partials/pageBottom") %>

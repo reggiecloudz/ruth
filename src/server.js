@@ -5,10 +5,9 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const passportMiddleware = require('./middleware/passport');
 const config = require('./config/config');
-const articleRoutes = require('./routes/Article');
-const commentRoutes = require('./routes/Comment');
 const userRoutes = require('./routes/User');
 const authRoutes = require('./routes/Auth');
+const equipmentRoutes = require('./routes/Equipment');
 const socketIO = require('socket.io');
 
 const app = express();
@@ -64,20 +63,38 @@ const startServer = () => {
     next();
   });
 
+  app.use((req, res, next) => {
+    req.renter = {
+      id: '62bee934cd3d36b800e28b32',
+      email: 'jluster@local.com',
+      name: 'Jake Luster'
+    };
+
+    req.provider = {
+      id: '62c0084b7fb299904e6e3c77',
+      email: 'bristy@local.com',
+      name: 'Bristy Bear'
+    };
+
+    next();
+  });
+
   var server = http.createServer(app);
 
   // setup socket.io
-  const io = socketIO(server, { cors: { origin: '*' } });
+  // const io = socketIO(server, { cors: { origin: '*' } });
 
   /** Routes */
   app.get('/', (req, res) => {
     res.render('index');
   });
-  app.use('/api/v1', require('./routes/Socket')(io));
+  app.get('/error', (req, res) => {
+    res.render('error');
+  });
+  // app.use('/api/v1', require('./routes/Socket')(io));
   app.use('/authentication', authRoutes);
-  app.use('/articles', articleRoutes);
   app.use('/users', userRoutes);
-  app.use('/comments', commentRoutes);
+  app.use('/equipment', equipmentRoutes);
 
   /**healthcheck */
   app.get('/ping', (req, res, next) => res.status(200).json({ message: 'pong' }));
@@ -89,8 +106,8 @@ const startServer = () => {
     return res.status(404).json({ message: err.message });
   });
 
-  io.on('connection', (socket) => {
-    console.log(socket.id);
-  });
+  // io.on('connection', (socket) => {
+  //   console.log(socket.id);
+  // });
   server.listen(config.server.port, () => console.log(`Server running on port ${config.server.port}.`));
 };
