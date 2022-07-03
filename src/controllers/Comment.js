@@ -7,6 +7,8 @@ const createComment = (req, res, next) => {
     _id: new mongoose.Types.ObjectId(),
     content
   });
+  //req.io.of('/').emit('new-comment', { content: req.body.content });
+
   return comment
     .save()
     .then((comment) => res.status(201).json({ comment }))

@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const http = require('http');
 const mongoose = require('mongoose');
@@ -8,6 +9,7 @@ const articleRoutes = require('./routes/Article');
 const commentRoutes = require('./routes/Comment');
 const userRoutes = require('./routes/User');
 const authRoutes = require('./routes/Auth');
+const socketIO = require('socket.io');
 
 const app = express();
 
@@ -23,6 +25,17 @@ mongoose
   });
 /** Start server */
 const startServer = () => {
+  // Require static assets from public folder
+  app.use(express.static(path.join(__dirname, 'public')));
+
+  // Set 'views' directory for any views
+  // being rendered res.render()
+  app.set('views', path.join(__dirname, 'views'));
+
+  // Set view engine as EJS
+  app.engine('ejs', require('ejs').renderFile);
+  app.set('view engine', 'ejs');
+
   app.use((req, res, next) => {
     /** Log request */
     console.log(`Incoming -> Method: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`);
@@ -50,7 +63,17 @@ const startServer = () => {
     }
     next();
   });
+
+  var server = http.createServer(app);
+
+  // setup socket.io
+  const io = socketIO(server, { cors: { origin: '*' } });
+
   /** Routes */
+  app.get('/', (req, res) => {
+    res.render('index');
+  });
+  app.use('/api/v1', require('./routes/Socket')(io));
   app.use('/authentication', authRoutes);
   app.use('/articles', articleRoutes);
   app.use('/users', userRoutes);
@@ -66,5 +89,8 @@ const startServer = () => {
     return res.status(404).json({ message: err.message });
   });
 
-  http.createServer(app).listen(config.server.port, () => console.log(`Server running on port ${config.server.port}.`));
+  io.on('connection', (socket) => {
+    console.log(socket.id);
+  });
+  server.listen(config.server.port, () => console.log(`Server running on port ${config.server.port}.`));
 };
